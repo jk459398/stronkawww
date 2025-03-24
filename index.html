@@ -14,7 +14,21 @@ title: Genome Ark - Species
 <body>
 
   <header>
-    <h1>Animal Sppecies</h1>
+    <nav class="main-menu">
+      <ul>
+        <li><a href="{{ site.baseurl }}/about">O nas</a></li>
+        <li class="dropdown">
+          <a href="#">Gatunki</a>
+          <ul class="dropdown-menu">
+            {% for species in site.species %}
+              <li><a href="{{ site.baseurl }}{{ species.url }}">{{ species.common_name }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+        <li><a href="{{ site.baseurl }}/contact">Kontakt</a></li>
+      </ul>
+    </nav>
+    <h1>Animal Species</h1>
   </header>
 
   <main>

@@ -5,51 +5,132 @@
 }
 
 body {
-    background-color:#87CEFA; 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    color: #333; 
+    background-color: #87CEFA;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
     line-height: 1.6;
     padding: 20px;
 }
+
 .container {
-    width: 80%; 
-    margin: 0 auto; 
-    background-color: 	#F5FFFA; 
+    width: 80%;
+    margin: 0 auto;
+    background-color: #F5FFFA;
     padding: 30px;
-    border-radius: 15px; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-    text-align: center; 
+    text-align: center;
     font-size: 2.5em;
     color: #333;
     margin-bottom: 20px;
     font-weight: bold;
-    margin-left: 115px; 
+    margin-left: 115px;
 }
 
+.main-menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.main-menu ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.main-menu li {
+    position: relative;
+}
+
+.main-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2em;
+    padding: 8px;
+    display: block;
+    font-weight: bold;
+}
+
+/* Styl dla rozwijanego menu */
+.dropdown-menu {
+    visibility: hidden;
+    opacity: 0;
+    display: block; /* Zapewnia działanie visibility i opacity */
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 5px 0;
+    top: 100%;
+    left: 0;
+    width: 180px; /* Stała szerokość */
+    z-index: 10;
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    transition: visibility 0.2s, opacity 0.2s;
+}
+
+.dropdown-menu li {
+    padding: 5px 10px;
+    font-size: 1em;
+    font-weight: normal;
+    display: block;
+    width: 100%;
+}
+
+.dropdown-menu li a {
+    color: #333;
+    display: block;
+    width: 100%;
+    padding: 5px;
+    white-space: normal;
+}
+
+/* Efekt jasnozielonego tła po najechaniu */
+.dropdown-menu li:hover {
+    background-color: #90EE90;
+}
+
+/* Pokazywanie menu tylko po najechaniu na "Gatunki" */
+.main-menu li:hover > .dropdown-menu {
+    visibility: visible;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Styl dla tabeli */
 table.species-table {
     width: 100%;
     margin-top: 30px;
-    border-collapse: collapse; 
-    border: 3px solid #4CAF50; 
-    border-radius: 10px; 
+    border-collapse: collapse;
+    border: 3px solid #4CAF50;
+    border-radius: 10px;
 }
 
 th {
-    background-color: #4CAF50; 
+    background-color: #4CAF50;
     color: white;
     text-align: center;
     padding: 15px;
     font-size: 1.2em;
-    border: 3px solid #4CAF50; 
+    border: 3px solid #4CAF50;
 }
 
 td {
-    background-color: 	#F5FFFA; 
+    background-color: #F5FFFA;
     padding: 15px;
-    border: 3px solid #ddd;   
+    border: 3px solid #ddd;
     text-align: center;
     font-size: 1.1em;
 }
@@ -77,12 +158,12 @@ td a:hover {
 }
 
 img {
-    max-width: 80%; 
+    max-width: 80%;
     height: auto;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
     display: block;
-    margin: 10px auto; 
+    margin: 10px auto;
 }
 
 .image-attribution {
@@ -98,10 +179,6 @@ footer {
     color: #555;
     background-color: #333;
     color: white;
-    padding: 10px;
-    border-radius: 10px;
     padding: 15px;
-    padding-left: 90px; 
+    border-radius: 10px;
 }
-
-
