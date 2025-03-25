@@ -21,7 +21,13 @@ title: Genome Ark - Species
           <a href="#">Gatunki</a>
           <ul class="dropdown-menu">
             {% for species in site.species %}
-              <li><a href="{{ site.baseurl }}{{ species.url }}">{{ species.common_name }}</a></li>
+              <li>
+                <a href="#species-{{ species.name | downcase | replace: ' ', '-' }}" 
+                   class="species-link"
+                   data-species="species-{{ species.name | downcase | replace: ' ', '-' }}">
+                   {{ species.common_name }}
+                </a>
+              </li>
             {% endfor %}
           </ul>
         </li>
@@ -44,11 +50,12 @@ title: Genome Ark - Species
             <th>Family</th>
             <th>Order</th>
             <th>Sequenced Resources</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
           {% for species in site.species %}
-            <tr>
+            <tr id="species-{{ species.name | downcase | replace: ' ', '-' }}">
               <td style="position: relative;">
                 {% for sample in species.samples %}
                   {% if sample.datatype == 'Bionano' %}
@@ -72,6 +79,9 @@ title: Genome Ark - Species
               <td>{{ species.family.name }}</td> 
               <td>{{ species.order.name }}</td> 
               <td>{{ species.samples | size }}</td> 
+              <td>
+                <button class="comment-btn" data-species="{{ species.common_name }}">Add comment</button>
+              </td>
             </tr>
           {% endfor %}
         </tbody>
@@ -82,6 +92,68 @@ title: Genome Ark - Species
   <footer>
     <p>Author: Julia Kołomańska</p>
   </footer>
+
+  <!-- Okno modalne dla komentarzy -->
+  <div id="comment-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2>Comment for: <span id="species-name"></span></h2>
+      <form id="comment-form">
+        <label for="email">Your email:</label>
+        <input type="email" id="email" name="email" required>
+        
+        <label for="comment">Your comment:</label>
+        <textarea id="comment" name="comment" required></textarea>
+        
+        <button type="submit">Add Comment</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript do obsługi modalu i aktywnego linku -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const modal = document.getElementById('comment-modal');
+      const closeBtn = document.querySelector('.close-btn');
+      const speciesNameSpan = document.getElementById('species-name');
+      const commentForm = document.getElementById('comment-form');
+
+      document.querySelectorAll('.comment-btn').forEach(button => {
+          button.addEventListener('click', function () {
+              speciesNameSpan.textContent = this.dataset.species;
+              modal.style.display = 'flex';
+          });
+      });
+
+      closeBtn.addEventListener('click', function () {
+          modal.style.display = 'none';
+      });
+
+      window.addEventListener('click', function (event) {
+          if (event.target === modal) {
+              modal.style.display = 'none';
+          }
+      });
+
+      commentForm.addEventListener('submit', function (event) {
+          event.preventDefault();
+          alert('Komentarz dodany!'); 
+          modal.style.display = 'none';
+      });
+
+      // Obsługa aktywnego linku w menu
+      const links = document.querySelectorAll('.dropdown-menu a');
+
+      function setActiveLink(event) {
+          links.forEach(link => link.classList.remove('active'));
+          event.target.classList.add('active');
+      }
+
+      links.forEach(link => {
+          link.addEventListener('click', setActiveLink);
+      });
+    });
+  </script>
 
 </body>
 </html>
