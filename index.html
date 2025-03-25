@@ -16,9 +16,9 @@ title: Genome Ark - Species
   <header>
     <nav class="main-menu">
       <ul>
-        <li><a href="{{ site.baseurl }}/about">O nas</a></li>
+        <li><a href="{{ site.baseurl }}/about">About us</a></li>
         <li class="dropdown">
-          <a href="#">Gatunki</a>
+          <a href="#">Species</a>
           <ul class="dropdown-menu">
             {% for species in site.species %}
               <li>
@@ -31,7 +31,7 @@ title: Genome Ark - Species
             {% endfor %}
           </ul>
         </li>
-        <li><a href="{{ site.baseurl }}/contact">Kontakt</a></li>
+        <li><a href="{{ site.baseurl }}/contact">Contact</a></li>
       </ul>
     </nav>
     <h1>Animal Species</h1>
@@ -39,53 +39,31 @@ title: Genome Ark - Species
 
   <main>
     <section class="container">
-      <table class="species-table">
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Scientific Name</th>
-            <th>Common Name</th>
-            <th>Genome Size</th>
-            <th>Project</th>
-            <th>Family</th>
-            <th>Order</th>
-            <th>Sequenced Resources</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for species in site.species %}
-            <tr id="species-{{ species.name | downcase | replace: ' ', '-' }}">
-              <td style="position: relative;">
-                {% for sample in species.samples %}
-                  {% if sample.datatype == 'Bionano' %}
-                    <div class="bionano-label">Bionano</div>
-                  {% endif %}
-                {% endfor %}
-                
-                {% if species.image %}
-                  <a href="{{ site.baseurl }}{{ species.url }}">
-                    <img src="{{ site.baseurl }}{{ species.image }}" alt="{{ species.name }}">
-                  </a>
-                  <p class="image-attribution">Attribution: {{ species.image_attribution }}</p>
-                {% else %}
-                  <p>No Image</p>
-                {% endif %}
-              </td>
-              <td>{{ species.name }}</td>
-              <td><em>{{ species.common_name }}</em></td>
-              <td>{{ species.genome_size | number_with_delimiter }}</td>
-              <td>{{ species.project | join: ", " }}</td>
-              <td>{{ species.family.name }}</td> 
-              <td>{{ species.order.name }}</td> 
-              <td>{{ species.samples | size }}</td> 
-              <td>
-                <button class="comment-btn" data-species="{{ species.common_name }}">Add comment</button>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      <div class="species-cards">
+        {% for species in site.species %}
+          <div class="card" id="species-{{ species.name | downcase | replace: ' ', '-' }}">
+            <div class="card-image">
+              {% if species.image %}
+                <a href="{{ site.baseurl }}{{ species.url }}">
+                  <img src="{{ site.baseurl }}{{ species.image }}" alt="{{ species.name }}">
+                </a>
+                <p class="image-attribution">Attribution: {{ species.image_attribution }}</p>
+              {% else %}
+                <p>No Image</p>
+              {% endif %}
+            </div>
+            <div class="card-body">
+              <h3>{{ species.common_name }}</h3>
+              <p><strong>Scientific Name:</strong> {{ species.name }}</p>
+              <p><strong>Genome Size:</strong> {{ species.genome_size | number_with_delimiter }}</p>
+              <p><strong>Project:</strong> {{ species.project | join: ", " }}</p>
+              <p><strong>Family:</strong> {{ species.family.name }}</p>
+              <p><strong>Order:</strong> {{ species.order.name }}</p>
+              <p><strong>Sequenced Resources:</strong> {{ species.samples | size }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
     </section>
   </main>
 
@@ -137,19 +115,31 @@ title: Genome Ark - Species
 
       commentForm.addEventListener('submit', function (event) {
           event.preventDefault();
-          alert('Komentarz dodany!'); 
+          alert('Comment added!');
           modal.style.display = 'none';
       });
 
-      // Obsługa aktywnego linku w menu
+      // Obsługa przewijania po kliknięciu w gatunek
       const links = document.querySelectorAll('.dropdown-menu a');
 
+      function scrollToSection(event) {
+          event.preventDefault();
+          const targetId = event.target.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+
+          if (targetElement) {
+              targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
+      }
+
+      // Ustawienie aktywnego linku w menu
       function setActiveLink(event) {
           links.forEach(link => link.classList.remove('active'));
           event.target.classList.add('active');
       }
 
       links.forEach(link => {
+          link.addEventListener('click', scrollToSection);
           link.addEventListener('click', setActiveLink);
       });
     });
