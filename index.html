@@ -10,6 +10,23 @@ title: Genome Ark - Species
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }}</title>
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
+  <style>
+    .bionano-label {
+      background-color: #ff3333;
+      color: white;
+      font-weight: bold;
+      padding: 5px 10px;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      border-radius: 5px;
+      font-size: 0.9em;
+      z-index: 2;
+    }
+    .card {
+      position: relative;
+    }
+  </style>
 </head>
 <body>
 
@@ -41,7 +58,20 @@ title: Genome Ark - Species
     <section class="container">
       <div class="species-cards">
         {% for species in site.species %}
+          <!-- Sprawdzanie, czy w próbkach jest "Bionano" -->
+          {% assign has_bionano = false %}
+          {% for sample in species.samples %}
+            {% if sample.datatype and sample.datatype == "Bionano" %}
+              {% assign has_bionano = true %}
+            {% endif %}
+          {% endfor %}
+
           <div class="card" id="species-{{ species.name | downcase | replace: ' ', '-' }}">
+
+            {% if has_bionano == true %}
+              <span class="bionano-label">Bionano</span>
+            {% endif %}
+
             <div class="card-image">
               {% if species.image %}
                 <a href="{{ site.baseurl }}{{ species.url }}">
@@ -54,12 +84,14 @@ title: Genome Ark - Species
             </div>
             <div class="card-body">
               <h3>{{ species.common_name }}</h3>
-              <p><strong>Scientific Name:</strong> {{ species.name }}</p>
+              <p><strong>Scientific Name:</strong> <em>{{ species.name }}</em></p>
               <p><strong>Genome Size:</strong> {{ species.genome_size | number_with_delimiter }}</p>
               <p><strong>Project:</strong> {{ species.project | join: ", " }}</p>
               <p><strong>Family:</strong> {{ species.family.name }}</p>
               <p><strong>Order:</strong> {{ species.order.name }}</p>
               <p><strong>Sequenced Resources:</strong> {{ species.samples | size }}</p>
+              
+              <button class="comment-btn" data-species="{{ species.common_name }}">Add Comment</button>
             </div>
           </div>
         {% endfor %}
@@ -71,24 +103,6 @@ title: Genome Ark - Species
     <p>Author: Julia Kołomańska</p>
   </footer>
 
-  <!-- Okno modalne dla komentarzy -->
-  <div id="comment-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn">&times;</span>
-      <h2>Comment for: <span id="species-name"></span></h2>
-      <form id="comment-form">
-        <label for="email">Your email:</label>
-        <input type="email" id="email" name="email" required>
-        
-        <label for="comment">Your comment:</label>
-        <textarea id="comment" name="comment" required></textarea>
-        
-        <button type="submit">Add Comment</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- JavaScript do obsługi modalu i aktywnego linku -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const modal = document.getElementById('comment-modal');
@@ -119,7 +133,6 @@ title: Genome Ark - Species
           modal.style.display = 'none';
       });
 
-      // Obsługa przewijania po kliknięciu w gatunek
       const links = document.querySelectorAll('.dropdown-menu a');
 
       function scrollToSection(event) {
@@ -128,11 +141,10 @@ title: Genome Ark - Species
           const targetElement = document.getElementById(targetId);
 
           if (targetElement) {
-              targetElement.scrollIntoView({ behavior: 'smooth' });
+              targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
       }
 
-      // Ustawienie aktywnego linku w menu
       function setActiveLink(event) {
           links.forEach(link => link.classList.remove('active'));
           event.target.classList.add('active');

@@ -131,18 +131,27 @@ td {
     font-size: 1.1em;
 }
 
+.species-row {
+    margin-bottom: 50px; /* Zwiększenie odstępu między wierszami */
+    padding-bottom: 30px; /* Dodanie odstępu wewnętrznego */
+    border-bottom: 3px solid #4CAF50; /* Opcjonalna linia oddzielająca */
+}
+
+
 .bionano-label {
     background-color: #ff3333;
     color: white;
     font-weight: bold;
     padding: 5px 10px;
     position: absolute;
-    top: -10px;
-    left: -10px;
+    top: -15px;  /* Przesunięcie bardziej w górę */
+    left: -15px; /* Przesunięcie bardziej w lewo */
     border-radius: 5px;
     font-size: 0.9em;
     z-index: 2;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Subtelny cień dla efektu "wystawania" */
 }
+
 
 td a {
     color: #007bff;
@@ -199,6 +208,7 @@ footer {
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s ease;
+    margin-top: 10px;
 }
 
 .comment-btn:hover {
