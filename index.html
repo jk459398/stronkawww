@@ -44,11 +44,9 @@ title: Genome Ark - Species
           <ul class="dropdown-menu">
             {% for species in site.species %}
               <li>
-                <a href="#species-{{ species.name | downcase | replace: ' ', '-' }}" 
-                   class="species-link"
-                   data-species="species-{{ species.name | downcase | replace: ' ', '-' }}">
-                   {{ species.common_name }}
-                </a>
+                <a href="{{ site.baseurl }}{{ species.url }}">
+                  {{ species.common_name }}
+               </a>
               </li>
             {% endfor %}
           </ul>
